@@ -11,6 +11,8 @@ import {
 import { isExclusiveTagActive } from "../utilities/actor-utilities.js";
 import { rollEngineMain } from "../utilities/roll-engine/roll-engine-main.js";
 import { disableMultiRoll } from "../forms/roll-engine-dialog-sheet.js";
+import { ApplyDamageSheet } from "../forms/apply-damage-sheet.js";
+import { applyWound, clearWounds } from "../utilities/wound-utilities.js";
 
 export class CypherActorSheetPC extends CypherActorSheet {
 
@@ -39,6 +41,9 @@ export class CypherActorSheetPC extends CypherActorSheet {
       disableMultiRoll: this.#onDisableMultiRoll,
       powerShiftTemporary: this.#onPowerShiftTemporary,
       itemFavorite: this.#onItemFavorite,
+      applyDamage: this.#applyDamageDialog,
+      clearAllWounds: this.#clearAllWounds,
+      toggleWoundBox: this.#toggleWoundBox,
     }
   }
 
@@ -208,6 +213,20 @@ export class CypherActorSheetPC extends CypherActorSheet {
       "6": 6,
     };
 
+    context.woundSeverityList = ["minor", "moderate", "major"];
+    context.woundSeverityLocalizations = {
+      minor: "CYPHERSYSTEM.WoundMinor",
+      moderate: "CYPHERSYSTEM.WoundModerate",
+      major: "CYPHERSYSTEM.WoundMajor",
+    };
+
+    context.woundExtraChoices = {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+    }
+
     return context;
   }
 
@@ -270,6 +289,40 @@ export class CypherActorSheetPC extends CypherActorSheet {
       "system.combat.stress.levels": 0,
     });
   };
+
+  // Open apply damage dialog
+  static async #applyDamageDialog(event, target) {
+    new ApplyDamageSheet(this.actor).render(true);
+  }
+
+  // Clear all wounds
+  static async #clearAllWounds(event, target) {
+    const teen = (this.actor.system.basic.unmaskedForm == "Teen" ? true : false);
+    await clearWounds(this.actor, teen);
+  }
+
+  // Toggle wound boxes
+  static async #toggleWoundBox(event, target) {
+    const element = target;
+    if (element.classList.contains("disabled")) return;
+    if (element.disabled) return;
+    const teen = (this.actor.system.basic.unmaskedForm == "Teen" ? true : false);
+    const severity = element
+    const path = (teen) ? "system.teen.combat.wounds" : "system.combat.wounds";
+    const wounds = (teen) ? this.actor.system.teen.combat.wounds : this.actor.system.combat.wounds;
+
+    if (element.classList.contains("filled")) {
+      await this.actor.update({[`${path}.${severity}.value`]: box - 1})
+      if (severity == "major" && !teen && box - 1 < wounds.major.max) {
+        await this.actor.update({"system.combat.damageTrack.state": "Hale"});
+      } else {
+        const result = await applyWound(this.actor, severity, teen);
+        if (result.dead) {
+          ui.notifications.warn(game.i18n.format("CYPHERSYSTEM.WoundDead", {name: this.actor.name}));
+        }
+      }
+    }
+  }
 
   /**
   * Pool management

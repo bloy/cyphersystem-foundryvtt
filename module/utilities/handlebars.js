@@ -28,6 +28,27 @@ export async function registerHandlebars() {
     return sum;
   });
 
+  Handlebars.registerHelper("woundBoxes", function (wounds, severity, isObserver) {
+    const severityData = wounds[severity];
+    if (!severityData) return "";
+    const max = Math.min(6, Math.max(3, Number.parseInt(severityData.max, 10) || 3));
+    const value = Math.min(Math.max(Number.parseInt(severityData.value, 10) || 0, 0), max);
+    const disabled = (isObserver) ? "disabled" : "";
+    let output = "";
+    for (let i = 1; i <= max; i++) {
+      const filled = (i <= value) ? "filled": "";
+      let marker = "";
+      if (severity == "moderate" && i == max) {
+        marker = "H";
+      } else if (severity == "major") {
+        marker = (i < max) ? "H" : '<i class="fa-item fas fa-skull"></i>';
+      }
+      const markerHtml = (marker) ? `<span class="wound-marker">${marker}</i>` : "";
+      output += `<a class="wound-box ${filled} ${disabled}" data-severity="${severity}" data-box="${i}" title="${i}">${markerHtml}</a>`
+    }
+    return output;
+  });
+
   Handlebars.registerHelper("enrichedHTMLItems", function (sheetData, type, itemID) {
     if (type == "description") return sheetData.enrichedHTML.itemDescription[itemID];
     if (type == "level") return sheetData.enrichedHTML.itemLevel[itemID];

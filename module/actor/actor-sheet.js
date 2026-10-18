@@ -90,6 +90,13 @@ export class CypherActorSheet extends foundry.applications.api.HandlebarsApplica
     context.sheetSettings.slashForFractions = game.settings.get("cyphersystem", "useSlashForFractions") ? "/" : "|";
     context.sheetSettings.editor = (game.settings.get("cyphersystem", "sheetEditor") == 1) ? "tinymce" : "prosemirror";
     context.sheetSettings.showOnHover = (game.settings.get("cyphersystem", "showButtonsOnHover")) ? "show-on-hover" : "";
+    context.sheetSettings.c2Damage = game.settings.get("cyphersystem", "damageRules") == "c2";
+
+    context.woundSeverityChoices = {
+      "minor": "CYPHERSYSTEM.WoundMinor",
+      "moderate": "CYPHERSYSTEM.WoundModerate",
+      "major": "CYPHERSYSTEM.WoundMajor",
+    }
 
     // Enriched HTML
     context.enrichedHTML = {};
@@ -1207,7 +1214,7 @@ export class CypherActorSheet extends foundry.applications.api.HandlebarsApplica
               action: 'move',
               icon: "fa-item fas fa-share-square",
               label: game.i18n.localize("CYPHERSYSTEM.Move"),
-              callback: (event, target, dialog) => 
+              callback: (event, target, dialog) =>
                 moveItems(dialog.element.querySelector("#quantity").value, originItem),
               default: true,
             },

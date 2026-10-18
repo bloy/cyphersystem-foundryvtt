@@ -81,21 +81,7 @@
                   <input class="stat-input" name="system.pools.infrastructure.max" type="number" value="{{#if sheetSettings.isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{actor.system.pools.infrastructure.max}}{{/if}}" />
                 </div>
               </div>
-              <div class="resource flex-group-center">
-                <div class="resource-content flexrow flex-center flex-between">
-                  <label class="resource-label-additional {{disabled (or sheetSettings.isLimited sheetSettings.isObserver)}}">
-                    {{localize 'CYPHERSYSTEM.Damage'}}
-                  </label>
-                  <label class="resource-label-additional {{disabled (or sheetSettings.isLimited sheetSettings.isObserver)}}">
-                    {{localize 'CYPHERSYSTEM.Armor'}}
-                  </label>
-                </div>
-                <div class="resource-content flexrow flex-center flex-between">
-                  <input name="system.combat.damage" type="number" value="{{#if sheetSettings.isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{actor.system.combat.damage}}{{/if}}" />
-                  &nbsp;
-                  <input name="system.combat.armor" type="number" value="{{#if sheetSettings.isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{actor.system.combat.armor}}{{/if}}" />
-                </div>
-              </div>
+              {{> systems/cyphersystem/templates/headers/npc-damage-armor.html}}
             </div>
           </div>
         </div>

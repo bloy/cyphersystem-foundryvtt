@@ -55,6 +55,9 @@ export class CypherActor extends Actor {
     systemData.teen.combat.armor.armorValueTotal = teenArmorTotal;
     systemData.teen.combat.armor.speedCostTotal = teenSpeedCostTotal;
 
+    prepareWounds(systemData.combat.wounds);
+    prepareWounds(systemData.teen.combat.wounds);
+
     // Calculate total modifier of attacks
     for (let i of actorData.items) {
       if (i.type == 'attack') {
@@ -86,4 +89,19 @@ export class CypherActor extends Actor {
       }
     }
   }
+}
+
+function prepareWounds(wounds) {
+  if (!wounds) return;
+  for (const severity of ["minor", "moderate", "major"]) {
+    if (!wounds[severity]) continue;
+    const extra = Math.min(3, Math.max(0, Number.parseInt(wounds[severity].extra, 10) || 0));
+    wounds[severity].max = 3 + extra;
+    wounds[severity].value = Math.min(
+      Math.max(Number.parseInt(wounds[severity].value, 10) || 0, 0),
+      wounds[severity].max
+    );
+  }
+  wounds.dead = (wounds.major.value >= wounds.major.max)
+  wounds.hindered = (wounds.moderate.value >= wounds.moderate.max ? 1 : 0) + wounds.major.value
 }

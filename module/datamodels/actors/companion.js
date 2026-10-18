@@ -20,7 +20,12 @@ export class CompanionData extends BaseActorData {
       }),
       combat: new fields.SchemaField({
         armor:  new fields.NumberField({integer: true,  initial: 0 }),
-        damage: new fields.NumberField({integer: true,  initial: 3 })
+        damage: new fields.NumberField({integer: true,  initial: 3 }),
+        damageSeverity: new fields.StringField({initial: "minor", choices: {
+          minor: "CYPHERSYSTEM.WoundMinor",
+          moderate: "CYPHERSYSTEM.WoundModerate",
+          major: "CYPHERSYSTEM.WoundMajor",
+        }}),
       }),
       description: new fields.HTMLField({ initial: "", textSearch: true  }),
       notes: new fields.HTMLField({ initial: "<p><strong>Character Benefit:</strong>&nbsp;</p><p><strong>Background:</strong>&nbsp;</p><p><strong>Description:</strong>&nbsp;</p>", textSearch: true  }),

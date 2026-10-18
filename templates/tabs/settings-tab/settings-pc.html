@@ -415,6 +415,13 @@
           </div>
         </li>
       {{/unless}}
+      {{#if sheetSettings.c2Damage}}
+        {{#if (eq actor.system.basic.unmaskedForm "Teen")}}
+          {{> systems/cyphersystem/templates/tabs/settings-tab/settings-wound-extra.html prefix="system.teen.combat.wounds" wounds=actor.system.teen.combat.wounds woundExtraChoices=woundExtraChoices}}
+        {{else}}
+          {{> systems/cyphersystem/templates/tabs/settings-tab/settings-wound-extra.html prefix="system.combat.wounds" wounds=actor.system.combat.wounds woundExtraChoices=woundExtraChoices}}
+        {{/if}}
+      {{/if}}
       <li class="item flexrow item-settings">
         <div class="settings-list">
           <input type="checkbox" name="system.settings.combat.lastingDamage.active" {{checked actor.system.settings.combat.lastingDamage.active}}>

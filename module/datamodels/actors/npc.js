@@ -17,6 +17,11 @@ export class NPCData extends BaseActorData {
       }),
       combat: new fields.SchemaField({
         damage: new fields.NumberField({integer: true,  initial: 1 }),
+        damageSeverity: new fields.StringField({initial: "minor", choices: {
+          minor: "CYPHERSYSTEM.WoundMinor",
+          moderate: "CYPHERSYSTEM.WoundModerate",
+          major: "CYPHERSYSTEM.WoundMajor",
+        }}),
         armor:  new fields.NumberField({integer: true,  initial: 0 })
       }),
       description: new fields.HTMLField({ initial: "", textSearch: true  }),

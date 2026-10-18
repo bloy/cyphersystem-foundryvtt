@@ -1,0 +1,30 @@
+<li class="item flexrow item-settings">
+  <div class="settings-list">
+    {{localize 'CYPHERSYSTEM.ExtraMinorWounds'}}
+  </div>
+  <div class="item-quantity">
+    <select class="auto-margin settings-input" name="{{prefix}}.minor.extra">
+      {{selectOptions woundExtraChoices selected=wounds.minor.extra}}
+    </select>
+  </div>
+</li>
+<li class="item flexrow item-settings">
+  <div class="settings-list">
+    {{localize 'CYPHERSYSTEM.ExtraModerateWounds'}}
+  </div>
+  <div class="item-quantity">
+    <select class="auto-margin settings-input" name="{{prefix}}.moderate.extra">
+      {{selectOptions woundExtraChoices selected=wounds.moderate.extra}}
+    </select>
+  </div>
+</li>
+<li class="item flexrow item-settings">
+  <div class="settings-list">
+    {{localize 'CYPHERSYSTEM.ExtraMajorWounds'}}
+  </div>
+  <div class="item-quantity">
+    <select class="auto-margin settings-input" name="{{prefix}}.major.extra">
+      {{selectOptions woundExtraChoices selected=wounds.major.extra}}
+    </select>
+  </div>
+</li>

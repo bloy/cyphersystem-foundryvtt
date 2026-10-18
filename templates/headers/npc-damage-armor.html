@@ -1,0 +1,24 @@
+<div class="resource flex-group-center">
+  <div class="resource-content flexrow flex-center flex-between">
+    <label class="resource-label-additional {{#if (or sheetSettings.isLimited sheetSettings.isObserver)}}disabled{{/if}}">
+      {{localize 'CYPHERSYSTEM.Damage'}}
+    </label>
+    <label class="resource-label-additional {{#if (or sheetSettings.isLimited sheetSettings.isObserver)}}disabled{{/if}}">
+      {{localize 'CYPHERSYSTEM.Armor'}}
+    </label>
+  </div>
+  {{#if sheetSettings.c2Damage}}
+    <div class="resource-content flexrow flex-center flex-between">
+      <select name="system.combat.damageSeverity" title="{{localize 'CYPHERSYSTEM.DamageSeverity'}}" style="width: 90px;">
+        {{selectOptions woundSeverityChoices selected=actor.system.combat.damageSeverity localize=true}}
+      </select>
+      <input name="system.combat.armor" type="number" value="{{#if sheetSettings.isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{actor.system.combat.armor}}{{/if}}" />
+    </div>
+  {{else}}
+    <div class="resource-content flexrow flex-center flex-between">
+      <input name="system.combat.damage" type="number" value="{{#if sheetSettings.isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{actor.system.combat.damage}}{{/if}}" />
+      &nbsp;
+      <input name="system.combat.armor" type="number" value="{{#if sheetSettings.isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{actor.system.combat.armor}}{{/if}}" />
+    </div>
+  {{/if}}
+</div>

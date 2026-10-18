@@ -66,6 +66,25 @@ export class PCData extends BaseActorData {
           applyImpaired: new fields.BooleanField({ initial: true }),
           applyDebilitated: new fields.BooleanField({ initial: true })
         }),
+        wounds: new fields.SchemaField({
+          minor: new fields.SchemaField({
+            value: new fields.NumberField({integer: true,  initial: 0, min: 0, max: 6}),
+            max:   new fields.NumberField({integer: true,  initial: 3, min: 3, max: 6}),
+            extra: new fields.NumberField({integer: true, iniital: 0, min: 0, max: 3}),
+          }),
+          moderate: new fields.SchemaField({
+            value: new fields.NumberField({integer: true,  initial: 0, min: 0, max: 6}),
+            max:   new fields.NumberField({integer: true,  initial: 3, min: 3, max: 6}),
+            extra: new fields.NumberField({integer: true, iniital: 0, min: 0, max: 3}),
+          }),
+          major: new fields.SchemaField({
+            value: new fields.NumberField({integer: true,  initial: 0, min: 0, max: 6}),
+            max:   new fields.NumberField({integer: true,  initial: 3, min: 3, max: 6 }),
+            extra: new fields.NumberField({integer: true, iniital: 0, min: 0, max: 3}),
+          }),
+          hindered: new fields.NumberField({integer: true, initial: 0, min: 0, max: 7}),
+          dead: new fields.BooleanField({initial: false})
+        }),
         stress: new fields.SchemaField({
           quantity: new fields.NumberField({integer: true,  initial: 0 }),
           levels: new fields.NumberField({integer: true,  initial: 0 }),
@@ -236,6 +255,25 @@ export class PCData extends BaseActorData {
           })
         }),
         combat: new fields.SchemaField({
+          wounds: new fields.SchemaField({
+            minor: new fields.SchemaField({
+              value: new fields.NumberField({integer: true,  initial: 0, min: 0, max: 6}),
+              max:   new fields.NumberField({integer: true,  initial: 3, min: 3, max: 6}),
+              extra: new fields.NumberField({integer: true, iniital: 0, min: 0, max: 3}),
+            }),
+            moderate: new fields.SchemaField({
+              value: new fields.NumberField({integer: true,  initial: 0, min: 0, max: 6}),
+              max:   new fields.NumberField({integer: true,  initial: 3, min: 3, max: 6}),
+              extra: new fields.NumberField({integer: true, iniital: 0, min: 0, max: 3}),
+            }),
+            major: new fields.SchemaField({
+              value: new fields.NumberField({integer: true,  initial: 0, min: 0, max: 6}),
+              max:   new fields.NumberField({integer: true,  initial: 3, min: 3, max: 6 }),
+              extra: new fields.NumberField({integer: true, iniital: 0, min: 0, max: 3}),
+            }),
+            hindered: new fields.NumberField({integer: true, initial: 0, min: 0, max: 7}),
+            dead: new fields.BooleanField({initial: false})
+          }),
           damageTrack: new fields.SchemaField({
             state: new fields.StringField({ initial: "Hale" }),
             applyImpaired:    new fields.BooleanField({ initial: true }),

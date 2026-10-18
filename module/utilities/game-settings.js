@@ -104,6 +104,19 @@ export async function registerGameSettings() {
     config: true
   });
 
+  game.settings.register("cyphersystem", "damageRules", {
+    name: game.i18n.localize("CYPHERSYSTEM.SettingDamageRules"),
+    hint: game.i18n.localize("CYPHERSYSTEM.SettingDamageRulesHint"),
+    scope: "world",
+    type: String,
+    default: "classic",
+    choices: {
+      classic: game.i18n.localize("CYPHERSYSTEM.SettingDamageRulesClassic"),
+      c2: game.i18n.localize("CYPHERSYSTEM.SettingDamageRulesC2"),
+    },
+    config: true,
+  });
+
   // Token settings
   game.settings.register("cyphersystem", "showRulerGridless", {
     name: game.i18n.localize("CYPHERSYSTEM.SettingShowRulerGridless"),

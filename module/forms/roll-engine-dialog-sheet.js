@@ -101,6 +101,20 @@ export class RollEngineDialogSheet extends HandlebarsApplicationMixin(Applicatio
       context.impairedString = game.i18n.localize("CYPHERSYSTEM.PCIsDebilitated");
     }
 
+    // Wounding hinderance (c2 damage rules)
+    context.woundHinderedString = "";
+    if (game.settings.get("cyphersystem", "damageRules") == "c2" && actor.type == "pc") {
+      const wounds = (data.teen) ? actor.system.teen.combat.wounds : actor.system.combat.wounds;
+      const majorValue = wounds?.major?.value ?? 0;
+      const majorMax = wounds?.major?.max ?? 3;
+      const moderateValue = wounds?.moderate?.value ?? 0;
+      const moderateMax = wounds?.moderate?.max ?? 3;
+      const hindered = (moderateValue >= moderateMax ? 1 : 0) + (majorMax > majorValue ? majorValue : 0);
+      if (hindered > 0) {
+        context.woundHinderedString = game.i18n.format("CYPHERSYSTEM.WoundHindered", {amount: hindered});
+      }
+    }
+
     // Stress
     context.stressModifier = 0;
     if (actor.system.settings.combat.stress.active && !context.teen) {
@@ -312,6 +326,20 @@ export class RollEngineDialogSheet extends HandlebarsApplicationMixin(Applicatio
       data.impairedString = game.i18n.localize("CYPHERSYSTEM.PCIsDebilitated");
     }
 
+    // Wounding hinderance (c2 damage rules)
+    context.woundHinderedString = "";
+    if (game.settings.get("cyphersystem", "damageRules") == "c2" && actor.type == "pc") {
+      const wounds = (data.teen) ? actor.system.teen.combat.wounds : actor.system.combat.wounds;
+      const majorValue = wounds?.major?.value ?? 0;
+      const majorMax = wounds?.major?.max ?? 3;
+      const moderateValue = wounds?.moderate?.value ?? 0;
+      const moderateMax = wounds?.moderate?.max ?? 3;
+      const hindered = (moderateValue >= moderateMax ? 1 : 0) + (majorMax > majorValue ? majorValue : 0);
+      if (hindered > 0) {
+        context.woundHinderedString = game.i18n.format("CYPHERSYSTEM.WoundHindered", {amount: hindered});
+      }
+    }
+
     // Stress
     data.stressModifier = 0;
     if (actor.system.settings.combat.stress.active && !context.teen) {
@@ -386,7 +414,7 @@ export class RollEngineDialogSheet extends HandlebarsApplicationMixin(Applicatio
 
     // Update data with latest from dialog
     const fd = new foundry.applications.ux.FormDataExtended(this.form);
-    foundry.utils.mergeObject(data, fd.object, {inplace: true});     
+    foundry.utils.mergeObject(data, fd.object, {inplace: true});
 
     data.skipRoll = false;
     if (actor.system.basic.unmaskedForm != "Teen") {
@@ -409,7 +437,7 @@ export class RollEngineDialogSheet extends HandlebarsApplicationMixin(Applicatio
 
     // Update data with latest from dialog
     const fd = new foundry.applications.ux.FormDataExtended(this.form);
-    foundry.utils.mergeObject(data, fd.object, {inplace: true});     
+    foundry.utils.mergeObject(data, fd.object, {inplace: true});
 
     data.skipRoll = true;
     if (actor.system.basic.unmaskedForm != "Teen") {

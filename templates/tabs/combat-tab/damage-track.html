@@ -65,78 +65,132 @@
         </li>
       {{/if}}
     {{/if}}
-    <li class="item flexrow non-draggable">
+    {{#unless sheetSettings.c2Damage}}
+        <li class="item flexrow non-draggable">
+          {{#if (eq actor.system.basic.unmaskedForm "Teen")}}
+            <div class="item-damage">
+              <select class="damage-track-select" name="system.teen.combat.damageTrack.state">
+                {{selectOptions damageTrackChoices selected=actor.system.teen.combat.damageTrack.state localize=true}}
+              </select>
+            </div>
+            <div class="centered-content" style="min-height: 40px; line-height: 1.4">
+              {{#if (eq actor.system.teen.combat.damageTrack.state "Hale")}}
+                {{localize 'CYPHERSYSTEM.HaleEffect'}}
+              {{/if}}
+              {{#if (eq actor.system.teen.combat.damageTrack.state "Impaired")}}
+                {{localize 'CYPHERSYSTEM.ImpairedEffect1'}}
+                <br>
+                {{localize 'CYPHERSYSTEM.ImpairedEffect2'}}
+              {{/if}}
+              {{#if (eq actor.system.teen.combat.damageTrack.state "Debilitated")}}
+                {{localize 'CYPHERSYSTEM.DebilitatedEffect1'}}
+                <br>
+                {{localize 'CYPHERSYSTEM.DebilitatedEffect2'}}
+              {{/if}}
+            </div>
+            <div class="damage-track-apply centered-content">
+              {{#if (eq actor.system.teen.combat.damageTrack.state "Impaired")}}
+                <a class="item-control {{disabled @root.sheetSettings.isObserver}}" title="{{localize 'CYPHERSYSTEM.ApplyStatusToRoll'}}" data-action="toggleField" data-field="system.teen.combat.damage.applyImpaired">
+                  <i class="fa-item fas fa-check" aria-hidden="true" style="color: {{#unless actor.system.teen.combat.damage.applyImpaired}}grey{{/unless}}"></i>
+                </a>
+              {{/if}}
+              {{#if (eq actor.system.teen.combat.damageTrack.state "Debilitated")}}
+                <a class="item-control {{disabled @root.sheetSettings.isObserver}}" title="{{localize 'CYPHERSYSTEM.ApplyStatusToRoll'}}" data-action="toggleField" data-field="system.teen.combat.damage.applyDebilitated">
+                  <i class="fa-item fas fa-check" aria-hidden="true" style="color: {{#unless actor.system.teen.combat.damage.applyDebilitated}}grey{{/unless}}"></i>
+                </a>
+              {{/if}}
+            </div>
+          {{else}}
+            <div class="item-damage">
+              <select class="damage-track-select" name="system.combat.damageTrack.state">
+                {{selectOptions damageTrackChoices selected=actor.system.combat.damageTrack.state localize=true}}
+              </select>
+            </div>
+            <div class="centered-content" style="min-height: 40px; line-height: 1.4">
+              {{#if (or (eq actor.system.combat.damageTrack.state "Hale") (eq actor.system.combat.damageTrack.state "Hurt"))}}
+                {{localize 'CYPHERSYSTEM.HaleEffect'}}
+              {{/if}}
+              {{#if (eq actor.system.combat.damageTrack.state "Impaired")}}
+                {{localize 'CYPHERSYSTEM.ImpairedEffect1'}}
+                <br>
+                {{localize 'CYPHERSYSTEM.ImpairedEffect2'}}
+              {{/if}}
+              {{#if (eq actor.system.combat.damageTrack.state "Debilitated")}}
+                {{localize 'CYPHERSYSTEM.DebilitatedEffect1'}}
+                <br>
+                {{localize 'CYPHERSYSTEM.DebilitatedEffect2'}}
+              {{/if}}
+              {{#if (eq actor.system.combat.damageTrack.state "Dead")}}
+                {{localize 'CYPHERSYSTEM.DeadEffect'}}
+              {{/if}}
+            </div>
+            <div class="damage-track-apply centered-content">
+              {{#if (eq actor.system.combat.damageTrack.state "Impaired")}}
+                <a class="item-control {{disabled @root.sheetSettings.isObserver}}" title="{{localize 'CYPHERSYSTEM.ApplyStatusToRoll'}}" data-action="toggleField" data-field="system.combat.damageTrack.applyImpaired">
+                  <i class="fa-item fas fa-check" aria-hidden="true" style="color: {{#unless actor.system.combat.damageTrack.applyImpaired}}grey{{/unless}}"></i>
+                </a>
+              {{/if}}
+              {{#if (eq actor.system.combat.damageTrack.state "Debilitated")}}
+                <a class="item-control {{disabled @root.sheetSettings.isObserver}}" title="{{localize 'CYPHERSYSTEM.ApplyStatusToRoll'}}" data-action="toggleField" data-field="system.combat.damageTrack.applyDebilitated">
+                  <i class="fa-item fas fa-check" aria-hidden="true" style="color: {{#unless actor.system.combat.damageTrack.applyDebilitated}}grey{{/unless}}"></i>
+                </a>
+              {{/if}}
+            </div>
+          {{/if}}
+        </li>
+    {{/unless}}
+     {{#if sheetSettings.c2Damage}}
+      <li class="item flexrow non-draggable">
+        <div class="item-name">{{localize 'CYPHERSYSTEM.Wounds'}}</div>
+        <div class="item-controls">
+          <a class="item-control apply-damage {{#if sheetSettings.isObserver}}disabled{{/if}}" title="{{localize 'CYPHERSYSTEM.ApplyDamage'}}">
+            <i class="fa-item fas fa-heart-crack"></i>&nbsp;{{localize 'CYPHERSYSTEM.ApplyDamage'}}
+          </a>
+          <a class="item-control clear-wounds {{#if sheetSettings.isObserver}}disabled{{/if}}" title="{{localize 'CYPHERSYSTEM.ClearWounds'}}">
+            <i class="fa-item fas fa-sync-alt"></i>
+          </a>
+        </div>
+      </li>
       {{#if (eq actor.system.basic.unmaskedForm "Teen")}}
-        <div class="item-damage">
-          <select class="damage-track-select" name="system.teen.combat.damageTrack.state">
-            {{selectOptions damageTrackChoices selected=actor.system.teen.combat.damageTrack.state localize=true}}
-          </select>
-        </div>
-        <div class="centered-content" style="min-height: 40px; line-height: 1.4">
-          {{#if (eq actor.system.teen.combat.damageTrack.state "Hale")}}
-            {{localize 'CYPHERSYSTEM.HaleEffect'}}
-          {{/if}}
-          {{#if (eq actor.system.teen.combat.damageTrack.state "Impaired")}}
-            {{localize 'CYPHERSYSTEM.ImpairedEffect1'}}
-            <br>
-            {{localize 'CYPHERSYSTEM.ImpairedEffect2'}}
-          {{/if}}
-          {{#if (eq actor.system.teen.combat.damageTrack.state "Debilitated")}}
-            {{localize 'CYPHERSYSTEM.DebilitatedEffect1'}}
-            <br>
-            {{localize 'CYPHERSYSTEM.DebilitatedEffect2'}}
-          {{/if}}
-        </div>
-        <div class="damage-track-apply centered-content">
-          {{#if (eq actor.system.teen.combat.damageTrack.state "Impaired")}}
-            <a class="item-control {{disabled @root.sheetSettings.isObserver}}" title="{{localize 'CYPHERSYSTEM.ApplyStatusToRoll'}}" data-action="toggleField" data-field="system.teen.combat.damage.applyImpaired">
-              <i class="fa-item fas fa-check" aria-hidden="true" style="color: {{#unless actor.system.teen.combat.damage.applyImpaired}}grey{{/unless}}"></i>
-            </a>
-          {{/if}}
-          {{#if (eq actor.system.teen.combat.damageTrack.state "Debilitated")}}
-            <a class="item-control {{disabled @root.sheetSettings.isObserver}}" title="{{localize 'CYPHERSYSTEM.ApplyStatusToRoll'}}" data-action="toggleField" data-field="system.teen.combat.damage.applyDebilitated">
-              <i class="fa-item fas fa-check" aria-hidden="true" style="color: {{#unless actor.system.teen.combat.damage.applyDebilitated}}grey{{/unless}}"></i>
-            </a>
-          {{/if}}
-        </div>
+        {{#each woundSeverityList as |severity|}}
+          <li class="item flexrow non-draggable wound-track">
+            <div class="item-name wound-label">{{localize (lookup ../woundSeverityLocalizations severity)}}</div>
+            <div class="wound-boxes">{{{woundBoxes ../actor.system.teen.combat.wounds severity ../sheetSettings.isObserver}}}</div>
+            <div class="item-quantity wound-count">{{lookup (lookup ../actor.system.teen.combat.wounds severity) "value"}}/{{lookup (lookup ../actor.system.teen.combat.wounds severity) "max"}}</div>
+          </li>
+        {{/each}}
+        {{#if actor.system.teen.combat.wounds.dead}}
+          <li class="item flexrow non-draggable wound-dead">
+            <div class="item-name">{{localize 'CYPHERSYSTEM.DeadEffect'}}</div>
+          </li>
+        {{/if}}
+        {{#if actor.system.teen.combat.wounds.hindered}}
+          <li class="item flexrow non-draggable wound-hindered">
+              <div class="item-name">{{localize 'CYPHERSYSTEM.WoundHinderedLabel'}}</div>
+              <div class="item-quantity">-{{actor.system.teen.combat.wounds.hindered}}</div>
+          </li>
+        {{/if}}
       {{else}}
-        <div class="item-damage">
-          <select class="damage-track-select" name="system.combat.damageTrack.state">
-            {{selectOptions damageTrackChoices selected=actor.system.combat.damageTrack.state localize=true}}
-          </select>
-        </div>
-        <div class="centered-content" style="min-height: 40px; line-height: 1.4">
-          {{#if (or (eq actor.system.combat.damageTrack.state "Hale") (eq actor.system.combat.damageTrack.state "Hurt"))}}
-            {{localize 'CYPHERSYSTEM.HaleEffect'}}
-          {{/if}}
-          {{#if (eq actor.system.combat.damageTrack.state "Impaired")}}
-            {{localize 'CYPHERSYSTEM.ImpairedEffect1'}}
-            <br>
-            {{localize 'CYPHERSYSTEM.ImpairedEffect2'}}
-          {{/if}}
-          {{#if (eq actor.system.combat.damageTrack.state "Debilitated")}}
-            {{localize 'CYPHERSYSTEM.DebilitatedEffect1'}}
-            <br>
-            {{localize 'CYPHERSYSTEM.DebilitatedEffect2'}}
-          {{/if}}
-          {{#if (eq actor.system.combat.damageTrack.state "Dead")}}
-            {{localize 'CYPHERSYSTEM.DeadEffect'}}
-          {{/if}}
-        </div>
-        <div class="damage-track-apply centered-content">
-          {{#if (eq actor.system.combat.damageTrack.state "Impaired")}}
-            <a class="item-control {{disabled @root.sheetSettings.isObserver}}" title="{{localize 'CYPHERSYSTEM.ApplyStatusToRoll'}}" data-action="toggleField" data-field="system.combat.damageTrack.applyImpaired">
-              <i class="fa-item fas fa-check" aria-hidden="true" style="color: {{#unless actor.system.combat.damageTrack.applyImpaired}}grey{{/unless}}"></i>
-            </a>
-          {{/if}}
-          {{#if (eq actor.system.combat.damageTrack.state "Debilitated")}}
-            <a class="item-control {{disabled @root.sheetSettings.isObserver}}" title="{{localize 'CYPHERSYSTEM.ApplyStatusToRoll'}}" data-action="toggleField" data-field="system.combat.damageTrack.applyDebilitated">
-              <i class="fa-item fas fa-check" aria-hidden="true" style="color: {{#unless actor.system.combat.damageTrack.applyDebilitated}}grey{{/unless}}"></i>
-            </a>
-          {{/if}}
-        </div>
+        {{#each woundSeverityList as |severity|}}
+          <li class="item flexrow non-draggable wound-track">
+            <div class="item-name wound-label">{{localize (lookup ../woundSeverityLocalizations severity)}}</div>
+            <div class="wound-boxes">{{{woundBoxes ../actor.system.combat.wounds severity ../sheetSettings.isObserver}}}</div>
+            <div class="item-quantity wound-count">{{lookup (lookup ../actor.system.combat.wounds severity) "value"}}/{{lookup (lookup ../actor.system.combat.wounds severity) "max"}}</div>
+          </li>
+        {{/each}}
+        {{#if actor.system.combat.wounds.dead}}
+          <li class="item flexrow non-draggable wound-dead">
+            <div class="item-name">{{localize 'CYPHERSYSTEM.DeadEffect'}}</div>
+          </li>
+        {{/if}}
+        {{#if actor.system.combat.wounds.hindered}}
+          <li class="item flexrow non-draggable wound-hindered">
+              <div class="item-name">{{localize 'CYPHERSYSTEM.WoundHinderedLabel'}}</div>
+              <div class="item-quantity">-{{actor.system.combat.wounds.hindered}}</div>
+          </li>
+        {{/if}}
       {{/if}}
-    </li>
+    {{/if}}
     <li class="item flexrow non-draggable">
       <div class="item-quantity">
         <input style="line-height: normal; margin: auto; width: 95px; display: flex; align-content: center;" name="system.combat.recoveries.roll" type="text" value="{{actor.system.combat.recoveries.roll}}" placeholder="1d6+1" {{sheetSettings.disabledStaticStats}} />
