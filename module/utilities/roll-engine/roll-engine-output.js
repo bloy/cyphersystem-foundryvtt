@@ -107,13 +107,17 @@ export async function rollEngineOutput(data) {
       difficultyInfo = `${game.i18n.localize("CYPHERSYSTEM.HinderedByExtraStep")}<br>`;
     }
   }
+  let woundInfo = "";
+  if (data.woundHindered !== 0) {
+    woundInfo = `${game.i18n.format("CYPHERSYSTEM.WoundHindered", {amount: data.woundHindered})}<br>`;
+  }
 
   // Details style
   let styleDifficultyDetailsHidden = `<div class="roll-result-difficulty-details" style="display: none">`;
   let styleDifficultyDetailsExpanded = `<div class="roll-result-difficulty-details expanded">`;
   let styleDifficultyDetails = (showDetails) ? styleDifficultyDetailsExpanded : styleDifficultyDetailsHidden;
 
-  let difficultyDetailsInfo = styleDifficultyDetails + baseDifficultyInfo + skillInfo + assetsInfo + effortToEaseInfo + stressInfo + difficultyInfo + `</div>`;
+  let difficultyDetailsInfo = styleDifficultyDetails + baseDifficultyInfo + skillInfo + assetsInfo + effortToEaseInfo + stressInfo + difficultyInfo + woundInfo + `</div>`;
 
   // Create block
   let difficultyBlock = `<div class="roll-result-box"><b><a class="roll-result-difficulty">` + taskDifficulty + `</a></b><br>` + difficultyDetailsInfo + `</div>`;

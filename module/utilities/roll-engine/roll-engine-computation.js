@@ -64,7 +64,7 @@ export async function rollEngineComputation(data) {
 
   // Determine wound hindrance (c2 damage)
   data.woundHindered = 0;
-  if (game.settings.get("cyphersystem", "damageRules") == "new" && actor.type == "pc") {
+  if (game.settings.get("cyphersystem", "damageRules") == "c2" && actor.type == "pc") {
     const wounds = (data.teen) ? actor.system.teen.combat.wounds : actor.system.combat.wounds;
     const majorValue = wounds?.major?.value ?? 0;
     const majorMax = wounds?.major?.max ?? 3;
