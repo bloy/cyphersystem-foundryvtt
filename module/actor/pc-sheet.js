@@ -292,22 +292,26 @@ export class CypherActorSheetPC extends CypherActorSheet {
 
   // Open apply damage dialog
   static async #applyDamageDialog(event, target) {
+    event.preventDefault()
     new ApplyDamageSheet(this.actor).render(true);
   }
 
   // Clear all wounds
   static async #clearAllWounds(event, target) {
+    event.preventDefault()
     const teen = (this.actor.system.basic.unmaskedForm == "Teen" ? true : false);
     await clearWounds(this.actor, teen);
   }
 
   // Toggle wound boxes
   static async #toggleWoundBox(event, target) {
+    event.preventDefault()
     const element = target;
     if (element.classList.contains("disabled")) return;
     if (element.disabled) return;
     const teen = (this.actor.system.basic.unmaskedForm == "Teen" ? true : false);
-    const severity = element
+    const severity = element.dataset.severity
+    const box = Number.parseInt(element.dataset.box, 10);
     const path = (teen) ? "system.teen.combat.wounds" : "system.combat.wounds";
     const wounds = (teen) ? this.actor.system.teen.combat.wounds : this.actor.system.combat.wounds;
 
@@ -315,11 +319,11 @@ export class CypherActorSheetPC extends CypherActorSheet {
       await this.actor.update({[`${path}.${severity}.value`]: box - 1})
       if (severity == "major" && !teen && box - 1 < wounds.major.max) {
         await this.actor.update({"system.combat.damageTrack.state": "Hale"});
-      } else {
-        const result = await applyWound(this.actor, severity, teen);
-        if (result.dead) {
-          ui.notifications.warn(game.i18n.format("CYPHERSYSTEM.WoundDead", {name: this.actor.name}));
-        }
+      }
+    } else {
+      const result = await applyWound(this.actor, severity, teen);
+      if (result.dead) {
+        ui.notifications.warn(game.i18n.format("CYPHERSYSTEM.WoundDead", {name: this.actor.name}));
       }
     }
   }

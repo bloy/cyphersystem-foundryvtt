@@ -44,7 +44,7 @@ export async function registerHandlebars() {
         marker = (i < max) ? "H" : '<i class="fa-item fas fa-skull"></i>';
       }
       const markerHtml = (marker) ? `<span class="wound-marker">${marker}</i>` : "";
-      output += `<a class="wound-box ${filled} ${disabled}" data-severity="${severity}" data-box="${i}" title="${i}">${markerHtml}</a>`
+      output += `<a data-action="toggleWoundBox" class="wound-box ${filled} ${disabled}" data-severity="${severity}" data-box="${i}" title="${i}">${markerHtml}</a>`
     }
     return output;
   });
