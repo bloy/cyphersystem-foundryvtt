@@ -293,7 +293,7 @@ export class CypherActorSheetPC extends CypherActorSheet {
   // Open apply damage dialog
   static async #applyDamageDialog(event, target) {
     event.preventDefault()
-    new ApplyDamageSheet(this.actor).render(true);
+    new ApplyDamageSheet({document: this.actor}).render(true);
   }
 
   // Clear all wounds

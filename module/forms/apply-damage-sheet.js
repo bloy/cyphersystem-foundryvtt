@@ -1,53 +1,68 @@
 import { applyPoolDamage, applyWound, damageToSeverity } from "../utilities/wound-utilities.js";
 
-export class ApplyDamageSheet extends FormApplication {
-  constructor(actor, options = {}) {
-    super(options);
-    this.actor = actor;
-    this.teen = (actor.system.basic.unmaskedForm == "Teen" ? true : false);
-  }
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
-  /** @override */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ["cyphersystem", "sheet", "apply-damage-form"],
-      template: "systems/cyphersystem/templates/forms/apply-damage-sheet.html",
-      title: game.i18n.localize("CYPHERSYSTEM.ApplyDamage"),
-      closeOnSubmit: false,
+export class ApplyDamageSheet extends HandlebarsApplicationMixin(ApplicationV2) {
+  static DEFAULT_OPTIONS = {
+    classes: ["application", "sheet", "apply-damage-form"],
+    position: {
+      width: 500,
+    },
+    tag: "form",
+    form: {
+      handler: ApplyDamageSheet.#onSubmitForm,
       submitOnChange: false,
       submitOnClose: false,
-      width: 450,
-      height: "auto",
-    });
+      closeOnSubmit: false,
+    },
+    window: {
+      resizable: true,
+      title: "CYPHERSYSTEM.ApplyDamage"
+    }
   }
 
-  getData() {
-    const data = super.getData();
-    data.woundSeverityChoices = {
+  static PARTS = {
+    form: {
+      cssClass: "standard-form",
+      template: "systems/cyphersystem/templates/forms/apply-damage-sheet.html",
+    }
+  }
+
+  get actor() {
+    return this.options.document
+  }
+
+  get teen() {
+    return this.actor?.system?.basic?.unmaskedForm == "Teen" ? true : false;
+  }
+
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+    context.woundSeverityChoices = {
       "auto": game.i18n.localize("CYPHERSYSTEM.WoundSeverityAuto"),
       "minor": game.i18n.localize("CYPHERSYSTEM.WoundMinor"),
       "moderate": game.i18n.localize("CYPHERSYSTEM.WoundModerate"),
       "major": game.i18n.localize("CYPHERSYSTEM.WoundMajor"),
     }
-    data.severity = "auto";
-    data.damage = 0;
-    data.poolDamage = 0;
-    data.pool = "None";
-    data.poolChoices = {
+    context.severity = "auto";
+    context.damage = 0;
+    context.poolDamage = 0;
+    context.pool = "None";
+    context.poolChoices = {
       None: game.i18n.localize("CYPHERSYSTEM.None"),
       Might: game.i18n.localize("CYPHERSYSTEM.Might"),
       Speed: game.i18n.localize("CYPHERSYSTEM.Speed"),
       Intellect: game.i18n.localize("CYPHERSYSTEM.Intellect"),
     };
-    return data
+    return context
   }
 
-  /** @override */
-  async _updateObject(event, formData) {
-    const damage = parseInt(formData.damage) || 0;
-    const severity = formData.severity;
-    const pool = formData.pool;
-    const poolDamage = parseInt(formData.poolDamage) || 0;
+  static async #onSubmitForm(event, form, formData) {
+    event.preventDefault()
+    const damage = parseInt(formData.object.damage) || 0;
+    const severity = formData.object.severity;
+    const pool = formData.object.pool;
+    const poolDamage = parseInt(formData.object.poolDamage) || 0;
 
     let woundSeverity;
     if (severity == "auto") {

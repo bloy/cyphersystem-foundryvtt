@@ -1,50 +1,28 @@
-<form class="flexcol" autocomplete="off">
-  <div class="flexrow">
-    <ol class="items-list">
-      <li class="item flexrow item-header">
-        <div class="item-name">{{localize 'CYPHERSYSTEM.Wounds'}}</div>
-      </li>
-      <li class="item flexrow item-settings">
-        <div class="settings-list">
-          {{localize 'CYPHERSYSTEM.ApplyDamage'}}
-        </div>
-        <div class="item-quantity">
-          <input class="auto-margin settings-input" name="damage" type="number" value="{{damage}}" placeholder="{{localize 'CYPHERSYSTEM.Damage'}}" />
-        </div>
-      </li>
-      <li class="item flexrow item-settings">
-        <div class="settings-list">
-          {{localize 'CYPHERSYSTEM.WoundSeverity'}}
-        </div>
-        <div class="item-quantity">
-          <select class="auto-margin settings-input" name="severity">
-            {{selectOptions woundSeverityChoices selected=severity}}
-          </select>
-        </div>
-      </li>
-      <li class="item flexrow item-settings" style="border-top-style: dashed">
-        <div class="settings-list">
-          {{localize 'CYPHERSYSTEM.PoolDamageOptional'}}
-        </div>
-        <div class="item-quantity">
-          <input class="auto-margin settings-input" name="poolDamage" type="number" value="{{poolDamage}}" placeholder="0" />
-        </div>
-        <div class="item-quantity">
-          <select class="auto-margin settings-input" name="pool">
-            {{selectOptions poolChoices selected=pool}}
-          </select>
-        </div>
-      </li>
-      <li class="item flexrow item-settings">
-        <div class="settings-list settings-list-hint">
-          {{localize 'CYPHERSYSTEM.WoundSeverityHint'}}
-        </div>
-      </li>
-      <li class="item flexrow">
-        <div class="item-controls" style="flex: 1; justify-content: flex-end;">
-          <button type="submit"><i class="fas fa-check"></i> {{localize 'CYPHERSYSTEM.ApplyDamage'}}</button>
-        </div>
-      </li>
-    </ol>
-  </div>
-</form>
+<div class="standard-form">
+    <div class="form-group">
+      <label for="{{partId}}-damage">{{localize 'CYPHERSYSTEM.ApplyDamage'}}</label>
+      <input id="{{partId-damage}}"
+             name="damage"
+             type="number"
+             value="{{damage}}"
+             placeholder="{{localize 'CYPHERSYSTEM.Damage'}}" />
+    </div>
+    <div class="form-group">
+      <label for="{{partId}}-severity">{{localize 'CYPHERSYSTEM.WoundSeverity'}}</label>
+      <select id="{{partId}}-severity" name="severity">
+        {{selectOptions woundSeverityChoices selected=severity}}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="{{partId}}-poolDamage">{{localize 'CYPHERSYSTEM.PoolDamageOptional'}}</label>
+      <input id="{{partId}}-poolDamage" name="poolDamage" type="number" value="{{poolDamage}}" placeholder="0" />
+      <select id="{{partId}}-poolDamage-pool" name="pool">
+        {{selectOptions poolChoices selected=pool}}
+      </select>
+    </div>
+    <div class="form-group">{{localize 'CYPHERSYSTEM.WoundSeverityHint'}}</div>
+    <div class="form-group">
+        <button type="submit" name="apply">{{localize 'CYPHERSYSTEM.ApplyDamage'}}</button>
+    </div>
+  </li>
+</div>

@@ -1150,6 +1150,10 @@ select.bar-attribute {
     flex: 0 0 80px;
 }
 
+.cyphersystem .items-list .item-controls.wound-controls {
+    flex-grow: 2;
+}
+
 .cyphersystem .wound-boxes {
     display: flex;
     flex: 1;
