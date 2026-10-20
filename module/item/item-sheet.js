@@ -576,6 +576,7 @@ export class CypherItemSheet extends foundry.applications.api.HandlebarsApplicat
     }
     this.render(true);
 
+
     async function addOrRemoveFromArray(array) {
       if (array.includes(tag._id)) {
         const index = array.indexOf(tag._id);
