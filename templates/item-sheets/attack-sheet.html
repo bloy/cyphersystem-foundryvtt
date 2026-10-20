@@ -75,8 +75,18 @@
     {{!-- Description Tab --}}
     <div class="tab {{tabs.description.cssClass}}" data-group="{{tabs.description.group}}"
       data-tab="{{tabs.description.id}}">
-      <prose-mirror toggled name="system.description"
-        value="{{enrichedHTML.description}}">{{{enrichedHTML.description}}}</prose-mirror>
+        {{#if editable}}
+            <prose-mirror
+                name="system.description"
+                button="true"
+                editable="{{editable}}"
+                toggled="false"
+                value="{{item.system.description}}">
+                {{{enrichedHTML.description}}}
+            </prose-mirror>
+        {{else}}
+            {{{enrichedHTML.description}}}
+        {{/if}}
     </div>
 
     {{!-- Tags and Recursions Tab --}}
