@@ -10,7 +10,9 @@
   {{#if sheetSettings.c2Damage}}
     <div class="resource-content flexrow flex-center flex-between">
       <select name="system.combat.damageSeverity" title="{{localize 'CYPHERSYSTEM.DamageSeverity'}}" style="width: 90px;">
+        {{#unless sheetSettings.isLimited}}
         {{selectOptions woundSeverityChoices selected=actor.system.combat.damageSeverity localize=true}}
+        {{/unless}}
       </select>
       <input name="system.combat.armor" type="number" value="{{#if sheetSettings.isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{actor.system.combat.armor}}{{/if}}" />
     </div>
